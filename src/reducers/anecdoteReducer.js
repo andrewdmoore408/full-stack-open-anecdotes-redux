@@ -17,6 +17,10 @@ const asObject = (anecdote) => {
   }
 }
 
+const sortByVotes = (anecdotes) => {
+  return anecdotes.sort((a, b) => a.votes < b.votes)
+}
+
 export const voteFor = (id) => {
   return {
     type: 'VOTE',
@@ -41,7 +45,7 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case 'NEW_ANECDOTE': {
-      return [...state, action.payload]
+      return sortByVotes([...state, action.payload])
     }
     case 'VOTE': {
       const id = action.payload.id
@@ -49,7 +53,7 @@ const reducer = (state = initialState, action) => {
       const anecdoteToUpdate = state.find(anecdote => anecdote.id === id)
       anecdoteToUpdate.votes += 1
 
-      return state.map(anecdote => anecdote === anecdoteToUpdate ? anecdoteToUpdate : anecdote)
+      return sortByVotes(state.map(anecdote => anecdote === anecdoteToUpdate ? anecdoteToUpdate : anecdote))
     }
     default:
       return state

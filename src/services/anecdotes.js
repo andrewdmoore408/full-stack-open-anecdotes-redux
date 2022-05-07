@@ -8,5 +8,12 @@ const getAll = async () => {
   return response.data
 }
 
+const newAnecdote = async (newAnecdote) => {
+  newAnecdote.votes = 0
+
+  const createdResponse = await axios.post(baseUrl, newAnecdote)
+  return createdResponse.data
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll }
+export default { getAll, newAnecdote }

@@ -1,9 +1,10 @@
 import anecdoteService from '../services/anecdotes'
+
 const sortByVotes = (anecdotes) => {
   return anecdotes.sort((a, b) => a.votes < b.votes)
 }
 
-export const voteFor = (id) => {
+const addVote = ({ id }) => {
   return {
     type: 'VOTE',
     payload: { id }
@@ -25,7 +26,7 @@ export const createAnecdote = (content) => {
 export const setAnecdotes = (anecdotes) => {
   const allAnecdotes = {
     type: 'SET_ANECDOTES',
-    payload: anecdotes
+    payload: sortByVotes(anecdotes),
   }
 
   return allAnecdotes
@@ -36,6 +37,14 @@ export const initializeAnecdotes = () => {
     const anecdotes = await anecdoteService.getAll()
 
     dispatch(setAnecdotes(anecdotes))
+  }
+}
+
+export const voteFor = (id) => {
+  return async dispatch => {
+    const updatedAnecdote = await anecdoteService.increaseVotes(id)
+
+    dispatch(addVote(updatedAnecdote))
   }
 }
 

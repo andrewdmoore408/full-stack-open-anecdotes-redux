@@ -1,3 +1,4 @@
+import anecdoteService from '../services/anecdotes'
 const sortByVotes = (anecdotes) => {
   return anecdotes.sort((a, b) => a.votes < b.votes)
 }
@@ -27,11 +28,19 @@ export const setAnecdotes = (anecdotes) => {
   return allAnecdotes
 }
 
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+
+    dispatch(setAnecdotes(anecdotes))
+  }
+}
+
 const initialState = []
 
 const anecdoteReducer = (state = initialState, action) => {
-  // console.log('state now: ', state)
-  // console.log('action', action)
+  console.log('state now: ', state)
+  console.log('action', action)
 
   switch (action.type) {
     case 'NEW_ANECDOTE': {

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 const Notification = (props) => {
-  if (props.notification.text === '') return
+  if (props.notification === '') return
 
   const style = {
     border: 'solid',
@@ -11,7 +11,7 @@ const Notification = (props) => {
 
   return (
     <div style={style}>
-      {props.notification.text}
+      {props.notification}
     </div>
   )
 }
